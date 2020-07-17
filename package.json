@@ -1,0 +1,44 @@
+{
+  "name": "otus-architect",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "LOG_LEVEL=debug nodemon -x 'tsc -p . && node svc | pino-pretty' -L -w src -w config -e ts,js,json",
+    "build": "tsc -p .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bl00dhound/otus-architect.git"
+  },
+  "author": "oleksii.kuznietsov@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bl00dhound/otus-architect/issues"
+  },
+  "homepage": "https://github.com/bl00dhound/otus-architect#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.7",
+    "@types/express-pino-logger": "^4.0.2",
+    "@types/pino": "^6.3.0",
+    "eslint": "^7.4.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
+    "prettier-eslint-cli": "^5.0.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-pino-logger": "^5.0.0",
+    "http-shutdown": "^1.2.2",
+    "nodemon": "^2.0.4",
+    "pino": "^6.4.0",
+    "pino-pretty": "^4.0.3",
+    "typescript": "^3.9.7"
+  }
+}
