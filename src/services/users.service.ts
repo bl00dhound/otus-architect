@@ -1,0 +1,39 @@
+import User from '../dao/users.dao';
+import IUser from '../intefaces/IUser';
+import { UserSchema } from '../schemas/users.schema';
+
+const service = {
+  getById: (userId: string) => {
+    if (!userId) throw Error('userId does not exist');
+
+    return User.getById(userId);
+  },
+  create: (data: Omit<IUser, 'id'>) => {
+    const isValid = UserSchema(data);
+
+    if (!isValid || Object.keys(data).length < 4)
+      throw Error(UserSchema?.errors?.[0]?.message || 'validation error');
+
+    return User.create(data);
+  },
+  delete: (userId: string) => {
+    if (!userId) throw Error('userId does not exist');
+
+    return User.delete(userId);
+  },
+  update: (userId: string, data: IUser) => {
+    if (!userId) throw Error('userId does not exist');
+
+    const isValid = UserSchema(data);
+
+    if (!isValid || Object.keys(data).length < 4)
+      throw Error(UserSchema?.errors?.[0]?.message || 'validation error');
+
+    const { id, updatedAt, createdAt, ...user } = data;
+    data.updatedAt = new Date();
+
+    return User.update(userId, data);
+  },
+};
+
+export default service;
