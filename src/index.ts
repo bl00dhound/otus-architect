@@ -8,7 +8,8 @@ import http from 'http';
 
 import config from './config';
 import logger from './providers/logger';
-import v1 from './v1';
+import { checkConnection } from './providers/db';
+import api from './api';
 
 dotenv.config();
 
@@ -35,13 +36,15 @@ process.on('uncaughtException', error => {
   process.exit(1);
 });
 
+checkConnection();
+
 app.use(httpLogger({ logger }));
 app.use(bodyParser.json({ limit: '100mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/v1', v1);
+app.use('/', api);
 
-app.use('*', (req, res) =>
+app.use('*', (_req, res) =>
   res.status(404).send({ message: 'Resource not found' })
 );
 
