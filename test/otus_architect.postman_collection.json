@@ -4,20 +4,23 @@
     "name": "Otus architect",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
-  "item": [{
+  "item": [
+    {
       "name": "create User",
-      "event": [{
-        "listen": "test",
-        "script": {
-          "id": "56c44485-3879-4013-ae3c-5d8fa328f66c",
-          "exec": [
-            "const body = JSON.parse(responseBody);",
-            "pm.collectionVariables.set(\"userId\", body.id);",
-            ""
-          ],
-          "type": "text/javascript"
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "56c44485-3879-4013-ae3c-5d8fa328f66c",
+            "exec": [
+              "const body = JSON.parse(responseBody);",
+              "pm.collectionVariables.set(\"userId\", body.id);",
+              ""
+            ],
+            "type": "text/javascript"
+          }
         }
-      }],
+      ],
       "request": {
         "method": "POST",
         "header": [],
@@ -33,13 +36,9 @@
         "url": {
           "raw": "http://{{baseUrl}}:8000/users",
           "protocol": "http",
-          "host": [
-            "{{baseUrl}}"
-          ],
+          "host": ["{{baseUrl}}"],
           "port": "8000",
-          "path": [
-            "users"
-          ]
+          "path": ["users"]
         },
         "description": "create User"
       },
@@ -47,21 +46,23 @@
     },
     {
       "name": "update User",
-      "event": [{
-        "listen": "test",
-        "script": {
-          "id": "10884953-fabf-4f77-a787-4bc2f02c6627",
-          "exec": [
-            "pm.test(\"Check is update successful\", function () {",
-            "    var body = pm.response.json();",
-            "    pm.expect(body).to.have.property('firstName', 'Sara1');",
-            "});",
-            "",
-            ""
-          ],
-          "type": "text/javascript"
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "10884953-fabf-4f77-a787-4bc2f02c6627",
+            "exec": [
+              "pm.test(\"Check is update successful\", function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.have.property('firstName', 'Sara1');",
+              "});",
+              "",
+              ""
+            ],
+            "type": "text/javascript"
+          }
         }
-      }],
+      ],
       "request": {
         "method": "PUT",
         "header": [],
@@ -77,14 +78,9 @@
         "url": {
           "raw": "http://{{baseUrl}}:8000/users/{{userId}}",
           "protocol": "http",
-          "host": [
-            "{{baseUrl}}"
-          ],
+          "host": ["{{baseUrl}}"],
           "port": "8000",
-          "path": [
-            "users",
-            "{{userId}}"
-          ]
+          "path": ["users", "{{userId}}"]
         }
       },
       "response": []
@@ -95,16 +91,11 @@
         "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "http://{{baseUrl}}:8000/users/34",
+          "raw": "http://{{baseUrl}}:8000/users/{{userId}}",
           "protocol": "http",
-          "host": [
-            "{{baseUrl}}"
-          ],
+          "host": ["{{baseUrl}}"],
           "port": "8000",
-          "path": [
-            "users",
-            "34"
-          ]
+          "path": ["users", "{{userId}}"]
         }
       },
       "response": []
@@ -129,28 +120,22 @@
         "url": {
           "raw": "http://{{baseUrl}}:8000/users/{{userId}}",
           "protocol": "http",
-          "host": [
-            "{{baseUrl}}"
-          ],
+          "host": ["{{baseUrl}}"],
           "port": "8000",
-          "path": [
-            "users",
-            "{{userId}}"
-          ]
+          "path": ["users", "{{userId}}"]
         },
         "description": "get user by id"
       },
       "response": []
     }
   ],
-  "event": [{
+  "event": [
+    {
       "listen": "prerequest",
       "script": {
         "id": "1e73a107-0066-4e82-a2de-512fce8f9eb9",
         "type": "text/javascript",
-        "exec": [
-          ""
-        ]
+        "exec": [""]
       }
     },
     {
@@ -158,13 +143,12 @@
       "script": {
         "id": "df379565-198b-4e3c-910b-2e161d8f9c75",
         "type": "text/javascript",
-        "exec": [
-          ""
-        ]
+        "exec": [""]
       }
     }
   ],
-  "variable": [{
+  "variable": [
+    {
       "id": "d278ac46-5317-4ab7-aca0-f2bd36a211fa",
       "key": "baseUrl",
       "value": "localhost",
