@@ -4,11 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "LOG_LEVEL=debug nodemon -x 'tsc -p . && node svc | pino-pretty' -L -w src -w config -e ts,js,json",
+    "start": "tsc -p . && LOG_LEVEL=debug PORT=8000 forever start ./forever.json",
+    "start:dev": "LOG_LEVEL=debug PORT=8000 nodemon  -x 'tsc -p . && node -r dotenv/config svc | pino-pretty' -L -w src -w config -e ts,js,json",
     "build": "tsc -p .",
-    "migrate:make": "knex --knexfile src/config/knexfile.js migrate:make",
     "migrate:db-up": "knex --knexfile src/config/knexfile.js migrate:latest",
-    "migrate:db-down": "knex --knexfile src/config/knexfile.js migrate:rollback"
+    "migrate:db-down": "knex --knexfile src/config/knexfile.js migrate:rollback",
+    "migrate:make": "CNFG_DB__CONNECTION__HOST=localhost POSTGRES_DB=otus POSTGRES_USER=arch POSTGRES_PASSWORD=secret_password knex --knexfile src/config/knexfile.js migrate:make",
+    "migrate:db-up:dev": "CNFG_DB__CONNECTION__HOST=localhost POSTGRES_DB=otus POSTGRES_USER=arch POSTGRES_PASSWORD=secret_password knex --knexfile src/config/knexfile.js migrate:latest",
+    "migrate:db-down:dev": "CNFG_DB__CONNECTION__HOST=localhost POSTGRES_DB=otus POSTGRES_USER=arch POSTGRES_PASSWORD=secret_password knex --knexfile src/config/knexfile.js migrate:rollback"
   },
   "repository": {
     "type": "git",
@@ -39,6 +42,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-pino-logger": "^5.0.0",
+    "forever": "^3.0.0",
     "http-shutdown": "^1.2.2",
     "knex": "^0.21.2",
     "nodemon": "^2.0.4",

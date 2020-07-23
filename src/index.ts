@@ -1,4 +1,3 @@
-import dotenv from 'dotenv';
 import express from 'express';
 import httpShutdown from 'http-shutdown';
 import httpLogger from 'express-pino-logger';
@@ -10,8 +9,6 @@ import config from './config';
 import logger from './providers/logger';
 import { checkConnection } from './providers/db';
 import api from './api';
-
-dotenv.config();
 
 const app = express();
 const server = httpShutdown(http.createServer(app));
