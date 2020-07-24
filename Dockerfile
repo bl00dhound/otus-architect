@@ -8,6 +8,8 @@ COPY tsconfig.json ./
 COPY forever.json ./
 COPY logs logs/
 COPY src src/
+COPY migrations migrations/
+
 RUN npm run build
 
 EXPOSE 8000
