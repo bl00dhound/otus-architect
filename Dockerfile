@@ -5,8 +5,10 @@ COPY package*.json ./
 RUN npm install
 
 COPY tsconfig.json ./
+COPY forever.json ./
+COPY logs logs/
 COPY src src/
 RUN npm run build
 
 EXPOSE 8000
-CMD ["npm", "start"]
+ENTRYPOINT ["npm", "start"]
