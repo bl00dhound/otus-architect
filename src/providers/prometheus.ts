@@ -13,7 +13,7 @@ const httpRequestDurationMicroseconds = new Prometheus.Histogram({
 const httpRequestDurationPercentiles = new Prometheus.Summary({
   name: 'request_latency_summary',
   help: 'Percentage of duration of HTTP requests',
-  labelNames: ['method', 'route', 'code'],
+  labelNames: ['method'],
   percentiles: [0.5, 0.95, 0.99, 1],
 });
 
@@ -30,9 +30,7 @@ export const requestMetricObserve = (req: Request, res: Response) => {
     .labels(req.method, req.route.path, res.statusCode.toString())
     .observe(responseTime);
 
-  httpRequestDurationPercentiles
-    .labels(req.method, req.route.path, res.statusCode.toString())
-    .observe(responseTime);
+  httpRequestDurationPercentiles.labels(req.method).observe(responseTime);
 
   httpRequestCounter
     .labels(req.method, req.route.path, res.statusCode.toString())
