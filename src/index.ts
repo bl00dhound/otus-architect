@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import httpShutdown from 'http-shutdown';
 import httpLogger from 'express-pino-logger';
 import bodyParser from 'body-parser';
@@ -9,12 +9,14 @@ import config from './config';
 import logger from './providers/logger';
 import { checkConnection } from './providers/db';
 import api from './api';
+import { metricsInterval, requestMetricObserve } from './providers/prometheus';
 
 const app = express();
 const server = httpShutdown(http.createServer(app));
 
 const shutdown = () => {
   server.shutdown(() => logger.info('server is stopped'));
+  clearInterval(metricsInterval as any);
   process.exit(0);
 };
 
@@ -35,9 +37,22 @@ process.on('uncaughtException', error => {
 
 checkConnection();
 
+app.use((_req: Request, res: Response, next: NextFunction) => {
+  res.locals.startEpoch = Date.now();
+  next();
+});
+
 app.use(httpLogger({ logger }));
 app.use(bodyParser.json({ limit: '100mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.once('finish', () => {
+    requestMetricObserve(req, res);
+  });
+
+  next();
+});
 
 app.use('/', api);
 
