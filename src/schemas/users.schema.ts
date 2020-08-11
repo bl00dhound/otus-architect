@@ -1,5 +1,3 @@
-import { omit as _omit } from 'lodash';
-
 import ajv from '../providers/validation';
 
 const properties = {
@@ -26,7 +24,7 @@ const properties = {
   },
 };
 
-export const UserSchema = ajv.compile({
+export default ajv.compile({
   properties,
   additionalProperties: false,
   require: ['email', 'firstName', 'lastName', 'phone'],

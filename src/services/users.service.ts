@@ -1,6 +1,6 @@
 import User from '../dao/users.dao';
 import IUser from '../intefaces/IUser';
-import { UserSchema } from '../schemas/users.schema';
+import UserSchema from '../schemas/users.schema';
 
 const service = {
   getById: (userId: string) => {
@@ -11,8 +11,7 @@ const service = {
   create: (data: Omit<IUser, 'id'>) => {
     const isValid = UserSchema(data);
 
-    if (!isValid || Object.keys(data).length < 4)
-      throw Error(UserSchema?.errors?.[0]?.message || 'validation error');
+    if (!isValid || Object.keys(data).length < 4) throw Error(UserSchema?.errors?.[0]?.message || 'validation error');
 
     return User.create(data);
   },
@@ -26,13 +25,12 @@ const service = {
 
     const isValid = UserSchema(data);
 
-    if (!isValid || Object.keys(data).length < 4)
-      throw Error(UserSchema?.errors?.[0]?.message || 'validation error');
+    if (!isValid || Object.keys(data).length < 4) throw Error(UserSchema?.errors?.[0]?.message || 'validation error');
 
-    const { id, updatedAt, createdAt, ...user } = data;
-    data.updatedAt = new Date();
+    const { id, createdAt, ...user } = data;
+    user.updatedAt = new Date();
 
-    return User.update(userId, data);
+    return User.update(userId, user);
   },
 };
 
