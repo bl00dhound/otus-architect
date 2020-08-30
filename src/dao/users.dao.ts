@@ -1,5 +1,5 @@
 import db from '../providers/db';
-import IUser from '../intefaces/IUser';
+import IUser from '../interfaces/IUser';
 import { toSnakeCase } from '../utils';
 
 const RETURNING = [

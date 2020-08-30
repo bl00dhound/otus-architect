@@ -1,6 +1,7 @@
 import User from '../dao/users.dao';
-import IUser from '../intefaces/IUser';
 import UserSchema from '../schemas/users.schema';
+
+import IUser from '../interfaces/IUser';
 
 const service = {
   getById: (userId: string) => {
