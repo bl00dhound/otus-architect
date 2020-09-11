@@ -27,13 +27,13 @@ export const requestMetricObserve = (req: Request, res: Response) => {
   const responseTime = Date.now() - res.locals.startEpoch;
 
   httpRequestDurationMicroseconds
-    .labels(req.method, req.route.path, res.statusCode.toString())
+    .labels(req.method, req?.route?.path, res.statusCode.toString())
     .observe(responseTime);
 
   httpRequestDurationPercentiles.labels(req.method).observe(responseTime);
 
   httpRequestCounter
-    .labels(req.method, req.route.path, res.statusCode.toString())
+    .labels(req.method, req?.route?.path, res.statusCode.toString())
     .inc();
 };
 

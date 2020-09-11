@@ -1,27 +1,34 @@
 import User from '../dao/users.dao';
-import UserSchema from '../schemas/users.schema';
+import { UserSchema, ReplenishSchema } from '../schemas';
+import { Events } from '../constants';
+
+import bus from '../providers/bus';
 
 import IUser from '../interfaces/IUser';
+import IReplenishData from '../interfaces/IReplenishData';
 
-const service = {
-  getById: (userId: string) => {
+export default class UserService {
+  static async getById(userId: string) {
     if (!userId) throw Error('userId does not exist');
 
     return User.getById(userId);
-  },
-  create: (data: Omit<IUser, 'id'>) => {
+  }
+
+  static async create(data: Omit<IUser, 'id'>) {
     const isValid = UserSchema(data);
 
     if (!isValid || Object.keys(data).length < 4) throw Error(UserSchema?.errors?.[0]?.message || 'validation error');
 
     return User.create(data);
-  },
-  delete: (userId: string) => {
+  }
+
+  static async delete(userId: string) {
     if (!userId) throw Error('userId does not exist');
 
     return User.delete(userId);
-  },
-  update: (userId: string, data: IUser) => {
+  }
+
+  static async update(userId: string, data: IUser) {
     if (!userId) throw Error('userId does not exist');
 
     const isValid = UserSchema(data);
@@ -32,7 +39,15 @@ const service = {
     user.updatedAt = new Date();
 
     return User.update(userId, user);
-  },
-};
+  }
 
-export default service;
+  static async replenishBalance(userId: string, data: IReplenishData): Promise<boolean> {
+    const replenishData = { ...data, user_id: Number(userId) };
+
+    const isValid = ReplenishSchema(replenishData);
+
+    if (!isValid || Object.keys(replenishData).length < 2) throw Error(UserSchema?.errors?.[0]?.message || 'validation error');
+
+    return bus.publish(Events.REPLENISH_BALANCE, replenishData);
+  }
+}
