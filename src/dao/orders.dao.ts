@@ -8,4 +8,10 @@ export default class DAO {
       .returning(['id', 'user_id', 'amount', 'status'])
       .then((orders) => orders[0]);
   }
+
+  static async getOrderByRequestId(requestId: string): Promise<IOrder> {
+    return db('orders')
+      .first()
+      .where('request_id', requestId);
+  }
 }

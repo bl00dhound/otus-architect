@@ -57,7 +57,7 @@ router.post(
 router.post(
   '/order/:userId',
   checkXUserId,
-  (req, res) => OrderService.createOrder(req.params.userId, req?.body)
+  (req, res) => OrderService.createOrder(req.params.userId, req?.body, req.get('x-request-id'))
     .then((order) => res.status(200).json({ orderId: order.id, status: order.status }))
     .catch((err) => res.status(400).send(err?.message || 'Error')),
 );

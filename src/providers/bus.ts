@@ -24,6 +24,9 @@ bus.on('connection-error', () => {
 });
 
 bus.publish('app:startTest', {})
+  .then(() => {
+    logger.info('[Bus started success]');
+  })
   .catch((err) => {
     logger.error({
       error: err.message,
